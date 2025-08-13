@@ -16,7 +16,7 @@ import pkgutil
 import re
 import sys
 from types import ModuleType
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Tuple, Union, Optional
 from urllib.parse import urlparse
 
 from qlib.typehint import InstConf
@@ -121,10 +121,10 @@ get_cls_kwargs = get_callable_kwargs  # NOTE: this is for compatibility for the 
 
 def init_instance_by_config(
     config: InstConf,
-    default_module=None,
-    accept_types: Union[type, Tuple[type]] = (),
+    default_module: Union[str, ModuleType] = "",
+    accept_types: Optional[Union[type, Tuple[type]]] = None,
     try_kwargs: Dict = {},
-    **kwargs,
+    **kwargs: Any,
 ) -> Any:
     """
     get initialized instance with config
@@ -153,7 +153,7 @@ def init_instance_by_config(
     object:
         An initialized object based on the config info
     """
-    if isinstance(config, accept_types):
+    if accept_types is not None and isinstance(config, accept_types):
         return config
 
     if isinstance(config, (str, Path)):
@@ -186,7 +186,7 @@ def init_instance_by_config(
 
 
 @contextlib.contextmanager
-def class_casting(obj: object, cls: type):
+def class_casting(obj: object, cls: type) -> contextlib.AbstractContextManager:
     """
     Python doesn't provide the downcasting mechanism.
     We use the trick here to downcast the class
