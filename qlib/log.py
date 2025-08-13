@@ -56,7 +56,7 @@ class _QLibLoggerManager:
         for logger in self._loggers.values():
             logger.setLevel(level)
 
-    def __call__(self, module_name, level: Optional[int] = None) -> QlibLogger:
+    def __call__(self, module_name: str, level: Optional[int] = None) -> QlibLogger:
         """
         Get a logger for a specific module.
 
@@ -149,7 +149,7 @@ class TimeInspector:
         cls.log_cost_time(info=f"{name} Done")
 
 
-def set_log_with_config(log_config: Dict[Text, Any]):
+def set_log_with_config(log_config: Dict[Text, Any]) -> None:
     """set log with config
 
     :param log_config:

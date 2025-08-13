@@ -200,8 +200,8 @@ class DSBasedUpdater(RecordUpdater, metaclass=ABCMeta):
             hist_ref = self.hist_ref
 
         start_time_buffer = get_date_by_shift(
-            self.last_end, -hist_ref + 1, clip_shift=False, freq=self.freq  # pylint: disable=E1130
-        )
+            self.last_end, -hist_ref + 1, clip_shift=False, freq=self.freq
+        )  # pylint: disable=E1130
         start_time = get_date_by_shift(self.last_end, 1, freq=self.freq)
         seg = {"test": (start_time, self.to_date)}
         return self.rmdl.get_dataset(

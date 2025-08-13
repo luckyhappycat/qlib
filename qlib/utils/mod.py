@@ -9,6 +9,7 @@ All module related class, e.g. :
 
 import contextlib
 import importlib
+import importlib.util
 import os
 from pathlib import Path
 import pickle
@@ -16,13 +17,13 @@ import pkgutil
 import re
 import sys
 from types import ModuleType
-from typing import Any, Dict, List, Tuple, Union, Optional
+from typing import Any, Dict, List, Tuple, Union, Optional, Generator
 from urllib.parse import urlparse
 
 from qlib.typehint import InstConf
 
 
-def get_module_by_module_path(module_path: Union[str, ModuleType]):
+def get_module_by_module_path(module_path: Union[str, ModuleType]) -> ModuleType:
     """Load module path
 
     :param module_path:
@@ -186,7 +187,7 @@ def init_instance_by_config(
 
 
 @contextlib.contextmanager
-def class_casting(obj: object, cls: type) -> contextlib.AbstractContextManager:
+def class_casting(obj: object, cls: type) -> "Generator[Any, None, None]":
     """
     Python doesn't provide the downcasting mechanism.
     We use the trick here to downcast the class
