@@ -195,9 +195,7 @@ class SignalRecord(RecordTemp):
             pred = pred.to_frame("score")
         self.save(**{"pred.pkl": pred})
 
-        logger.info(
-            f"Signal record 'pred.pkl' has been saved as the artifact of the Experiment {self.recorder.experiment_id}"
-        )
+        logger.info(f"Signal record 'pred.pkl' has been saved as the artifact of the Experiment {self.recorder.experiment_id}")
         # print out results
         pprint(f"The following are prediction results of the {type(self.model).__name__} model.")
         pprint(pred.head(5))
@@ -446,12 +444,8 @@ class PortAnaRecord(ACRecordTemp):
         if isinstance(indicator_analysis_freq, str):
             indicator_analysis_freq = [indicator_analysis_freq]
 
-        self.risk_analysis_freq = [
-            "{0}{1}".format(*Freq.parse(_analysis_freq)) for _analysis_freq in risk_analysis_freq
-        ]
-        self.indicator_analysis_freq = [
-            "{0}{1}".format(*Freq.parse(_analysis_freq)) for _analysis_freq in indicator_analysis_freq
-        ]
+        self.risk_analysis_freq = ["{0}{1}".format(*Freq.parse(_analysis_freq)) for _analysis_freq in risk_analysis_freq]
+        self.indicator_analysis_freq = ["{0}{1}".format(*Freq.parse(_analysis_freq)) for _analysis_freq in indicator_analysis_freq]
         self.indicator_analysis_method = indicator_analysis_method
 
     def _get_report_freq(self, executor_config):
@@ -480,9 +474,7 @@ class PortAnaRecord(ACRecordTemp):
 
         artifact_objects = {}
         # custom strategy and get backtest
-        portfolio_metric_dict, indicator_dict = normal_backtest(
-            executor=self.executor_config, strategy=self.strategy_config, **self.backtest_config
-        )
+        portfolio_metric_dict, indicator_dict = normal_backtest(executor=self.executor_config, strategy=self.strategy_config, **self.backtest_config)
         for _freq, (report_normal, positions_normal) in portfolio_metric_dict.items():
             artifact_objects.update({f"report_normal_{_freq}.pkl": report_normal})
             artifact_objects.update({f"positions_normal_{_freq}.pkl": positions_normal})
@@ -499,9 +491,7 @@ class PortAnaRecord(ACRecordTemp):
             else:
                 report_normal, _ = portfolio_metric_dict.get(_analysis_freq)
                 analysis = dict()
-                analysis["excess_return_without_cost"] = risk_analysis(
-                    report_normal["return"] - report_normal["bench"], freq=_analysis_freq
-                )
+                analysis["excess_return_without_cost"] = risk_analysis(report_normal["return"] - report_normal["bench"], freq=_analysis_freq)
                 analysis["excess_return_with_cost"] = risk_analysis(
                     report_normal["return"] - report_normal["bench"] - report_normal["cost"], freq=_analysis_freq
                 )
@@ -653,15 +643,11 @@ class MultiPassPortAnaRecord(PortAnaRecord):
 
             # Calculate return and information ratio's mean, std and mean/std
             multi_pass_port_analysis_df = combined_df.groupby(level=[0, 1], group_keys=False).apply(
-                lambda x: pd.Series(
-                    {"mean": x["risk"].mean(), "std": x["risk"].std(), "mean_std": x["risk"].mean() / x["risk"].std()}
-                )
+                lambda x: pd.Series({"mean": x["risk"].mean(), "std": x["risk"].std(), "mean_std": x["risk"].mean() / x["risk"].std()})
             )
 
             # Only look at "annualized_return" and "information_ratio"
-            multi_pass_port_analysis_df = multi_pass_port_analysis_df.loc[
-                (slice(None), ["annualized_return", "information_ratio"]), :
-            ]
+            multi_pass_port_analysis_df = multi_pass_port_analysis_df.loc[(slice(None), ["annualized_return", "information_ratio"]), :]
             pprint(multi_pass_port_analysis_df)
 
             # Save new df

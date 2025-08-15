@@ -16,7 +16,7 @@ from qlib.tests import TestAutoData
 from qlib.tests.config import CSI300_GBDT_TASK, CSI300_BENCH
 
 
-def train(uri_path: str = None):
+def train(uri_path: str = ""):
     """train model
 
     Returns
@@ -81,7 +81,7 @@ def fake_experiment():
     return default_uri == default_uri_to_check, current_uri == current_uri_to_check, current_uri
 
 
-def backtest_analysis(pred, rid, uri_path: str = None):
+def backtest_analysis(pred, rid, uri_path: str = ""):
     """backtest and analysis
 
     Parameters
