@@ -117,8 +117,7 @@ def workflow(config_path, experiment_name="workflow", uri_folder="mlruns"):
             path = base_config_path
         else:
             logger.info(
-                f"Can't find BASE_CONFIG_PATH base on: {Path.cwd()}, "
-                f"try using relative path to config path: {Path(config_path).absolute()}"
+                f"Can't find BASE_CONFIG_PATH base on: {Path.cwd()}, " f"try using relative path to config path: {Path(config_path).absolute()}"
             )
             relative_path = Path(config_path).absolute().parent.joinpath(base_config_path)
             if relative_path.exists():

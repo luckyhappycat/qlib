@@ -352,7 +352,7 @@ class QlibConfig(Config):
             return provider_uri
 
         @staticmethod
-        def get_uri_type(uri: Union[str, Path]):
+        def get_uri_type(uri: Union[str, Path]) -> str:
             uri = uri if isinstance(uri, str) else str(uri.expanduser().resolve())
             is_win = re.match("^[a-zA-Z]:.*", uri) is not None  # such as 'C:\\data', 'D:'
             # such as 'host:/data/'   (User may define short hostname by themselves or use localhost)
@@ -393,7 +393,7 @@ class QlibConfig(Config):
         self.update(_default_region_config[region])
 
     @staticmethod
-    def is_depend_redis(cache_name: str):
+    def is_depend_redis(cache_name: str) -> bool:
         return cache_name in DEPENDENCY_REDIS_CACHE
 
     @property
@@ -414,13 +414,11 @@ class QlibConfig(Config):
         # resolve
         for _freq in _provider_uri.keys():
             # mount_path
-            _mount_path[_freq] = (
-                _mount_path[_freq] if _mount_path[_freq] is None else str(Path(_mount_path[_freq]).expanduser())
-            )
+            _mount_path[_freq] = _mount_path[_freq] if _mount_path[_freq] is None else str(Path(_mount_path[_freq]).expanduser())
         self["provider_uri"] = _provider_uri
         self["mount_path"] = _mount_path
 
-    def set(self, default_conf: str = "client", **kwargs):
+    def set(self, default_conf: str = "client", **kwargs: dict) -> None:
         """
         configure qlib based on the input parameters
 
@@ -474,10 +472,7 @@ class QlibConfig(Config):
                     log_str += f" and {self['dataset_cache']}" if log_str else self["dataset_cache"]
                     self["dataset_cache"] = None
                 if log_str:
-                    logger.warning(
-                        f"redis connection failed(host={self['redis_host']} port={self['redis_port']}), "
-                        f"{log_str} will not be used!"
-                    )
+                    logger.warning(f"redis connection failed(host={self['redis_host']} port={self['redis_port']}), " f"{log_str} will not be used!")
 
     def register(self):
         from .utils import init_instance_by_config  # pylint: disable=C0415
@@ -511,7 +506,7 @@ class QlibConfig(Config):
             # Due to a bug? that converting __version__ to _QlibConfig__version__bak
             # Using  __version__bak instead of __version__
 
-    def get_kernels(self, freq: str):
+    def get_kernels(self, freq: str) -> int:
         """get number of processors given frequency"""
         if isinstance(self["kernels"], Callable):
             return self["kernels"](freq)
