@@ -70,7 +70,7 @@ class DataHealthChecker:
 
     def check_missing_data(self) -> Optional[pd.DataFrame]:
         """Check if any data is missing in the DataFrame."""
-        result_dict = {
+        result_dict: dict[str, list] = {
             "instruments": [],
             "open": [],
             "high": [],
@@ -97,7 +97,7 @@ class DataHealthChecker:
 
     def check_large_step_changes(self) -> Optional[pd.DataFrame]:
         """Check if there are any large step changes above the threshold in the OHLCV columns."""
-        result_dict = {
+        result_dict: dict[str, list] = {
             "instruments": [],
             "col_name": [],
             "date": [],
@@ -127,7 +127,7 @@ class DataHealthChecker:
     def check_required_columns(self) -> Optional[pd.DataFrame]:
         """Check if any of the required columns (OLHCV) are missing in the DataFrame."""
         required_columns = ["open", "high", "low", "close", "volume"]
-        result_dict = {
+        result_dict: dict[str, list] = {
             "instruments": [],
             "missing_col": [],
         }
@@ -146,7 +146,7 @@ class DataHealthChecker:
 
     def check_missing_factor(self) -> Optional[pd.DataFrame]:
         """Check if the 'factor' column is missing in the DataFrame."""
-        result_dict = {
+        result_dict: dict[str, list] = {
             "instruments": [],
             "missing_factor_col": [],
             "missing_factor_data": [],

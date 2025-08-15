@@ -28,7 +28,7 @@ class GetData:
         """
         self.delete_zip_file = delete_zip_file
 
-    def merge_remote_url(self, file_name: str):
+    def merge_remote_url(self, file_name: str) -> str:
         """
         Generate download links.
 
@@ -121,9 +121,7 @@ class GetData:
         file_path = Path(file_path)
         target_dir = Path(target_dir)
         if delete_old:
-            logger.warning(
-                f"will delete the old qlib data directory(features, instruments, calendars, features_cache, dataset_cache): {target_dir}"
-            )
+            logger.warning(f"will delete the old qlib data directory(features, instruments, calendars, features_cache, dataset_cache): {target_dir}")
             GetData._delete_qlib_data(target_dir)
         logger.info(f"{file_path} unzipping......")
         with zipfile.ZipFile(str(file_path.resolve()), "r") as zp:
