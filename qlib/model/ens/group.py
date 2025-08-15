@@ -20,7 +20,7 @@ from joblib import Parallel, delayed
 class Group:
     """Group the objects based on dict"""
 
-    def __init__(self, group_func=None, ens: Ensemble = None):
+    def __init__(self, group_func: Callable = None, ens: Ensemble = None):
         """
         Init Group.
 

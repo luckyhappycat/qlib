@@ -154,7 +154,7 @@ def backtest_daily(
     benchmark: str = "SH000300",
     exchange_kwargs: dict = None,
     pos_type: str = "Position",
-):
+) -> tuple[pd.DataFrame, dict]:
     """initialize the strategy and executor, then executor the backtest of daily frequency
 
     Parameters
