@@ -25,7 +25,7 @@ class Ensemble:
             object: the ensemble object
     """
 
-    def __call__(self, ensemble_dict: dict, *args, **kwargs):
+    def __call__(self, ensemble_dict: dict, *args: object, **kwargs: object) -> object:
         raise NotImplementedError(f"Please implement the `__call__` method.")
 
 

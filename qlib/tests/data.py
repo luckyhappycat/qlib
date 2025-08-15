@@ -18,13 +18,10 @@ from qlib.utils import exists_qlib_data
 class GetData:
     REMOTE_URL = "https://github.com/SunsetWolf/qlib_dataset/releases/download"
 
-    def __init__(self, delete_zip_file=False):
+    def __init__(self, delete_zip_file: bool = False):
         """
-
-        Parameters
-        ----------
-        delete_zip_file : bool, optional
-            Whether to delete the zip file, value from True or False, by default False
+        Params:
+            delete_zip_file: bool, optional. Whether to delete the zip file, value from True or False, by default False
         """
         self.delete_zip_file = delete_zip_file
 
@@ -41,7 +38,7 @@ class GetData:
         """
         return f"{self.REMOTE_URL}/{file_name}" if "/" in file_name else f"{self.REMOTE_URL}/v0/{file_name}"
 
-    def download(self, url: str, target_path: [Path, str]):
+    def download(self, url: str, target_path: Path | str):
         """
         Download a file from the specified url.
 
@@ -64,12 +61,12 @@ class GetData:
         )
         logger.info(f"{os.path.basename(file_name)} downloading......")
         with tqdm(total=int(resp.headers.get("Content-Length", 0))) as p_bar:
-            with target_path.open("wb") as fp:
+            with Path(target_path).open("wb") as fp:
                 for chunk in resp.iter_content(chunk_size=chunk_size):
                     fp.write(chunk)
                     p_bar.update(chunk_size)
 
-    def download_data(self, file_name: str, target_dir: [Path, str], delete_old: bool = True):
+    def download_data(self, file_name: str, target_dir: Path, delete_old: bool = True):
         """
         Download the specified file to the target folder.
 

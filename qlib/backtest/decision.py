@@ -109,7 +109,7 @@ class Order:
         """
         return the sign of trading
         - `+1` indicates buying
-        - `-1` value indicates selling
+        - `-1` indicates selling
         """
         return self.direction * 2 - 1
 
