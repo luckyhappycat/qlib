@@ -601,7 +601,7 @@ class QlibRecorder:
         """
         self.get_exp(start=True).get_recorder(start=True).log_artifact(local_path, artifact_path)
 
-    def download_artifact(self, path: str, dst_path: Optional[str] = None) -> str:
+    def download_artifact(self, path: str, dst_path: Optional[str] = None):
         """
         Download an artifact file or directory from a run to a local directory if applicable,
         and return a local path for it.
@@ -615,11 +615,6 @@ class QlibRecorder:
             download the specified artifacts. This directory must already exist.
             If unspecified, the artifacts will either be downloaded to a new
             uniquely-named directory on the local filesystem.
-
-        Returns
-        -------
-        str
-            Local path of desired artifact.
         """
         self.get_exp(start=True).get_recorder(start=True).download_artifact(path, dst_path)
 
