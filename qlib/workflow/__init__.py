@@ -44,7 +44,7 @@ class QlibRecorder:
         recorder_name: Optional[Text] = None,
         uri: Optional[Text] = None,
         resume: bool = False,
-    ):
+    ) -> "QlibRecorder":
         """
         Method to start an experiment. This method can only be called within a Python's `with` statement. Here is the example code:
 
@@ -239,9 +239,7 @@ class QlibRecorder:
         """
         return self.get_exp(experiment_id=experiment_id, experiment_name=experiment_name).list_recorders()
 
-    def get_exp(
-        self, *, experiment_id=None, experiment_name=None, create: bool = True, start: bool = False
-    ) -> Experiment:
+    def get_exp(self, *, experiment_id: str = None, experiment_name: str = None, create: bool = True, start: bool = False) -> Experiment:
         """
         Method for retrieving an experiment with given id or name. Once the `create` argument is set to
         True, if no valid experiment is found, this method will create one for you. Otherwise, it will
@@ -322,7 +320,7 @@ class QlibRecorder:
             start=start,
         )
 
-    def delete_exp(self, experiment_id=None, experiment_name=None):
+    def delete_exp(self, experiment_id: str = None, experiment_name: str = None):
         """
         Method for deleting the experiment with given id or name. At least one of id or name must be given,
         otherwise, error will occur.
@@ -358,7 +356,7 @@ class QlibRecorder:
         """
         return self.exp_manager.uri
 
-    def set_uri(self, uri: Optional[Text]):
+    def set_uri(self, uri: Optional[Text]) -> None:
         """
         Method to reset the **default** uri of current experiment manager.
 
@@ -528,9 +526,7 @@ class QlibRecorder:
             For example, `{"pred.pkl": pred}`
         """
         if local_path is not None and len(kwargs) > 0:
-            raise ValueError(
-                "You can choose only one of `local_path`(save the files in a path) or `kwargs`(pass in the objects directly)"
-            )
+            raise ValueError("You can choose only one of `local_path`(save the files in a path) or `kwargs`(pass in the objects directly)")
         self.get_exp().get_recorder(start=True).save_objects(local_path, artifact_path, **kwargs)
 
     def load_object(self, name: Text):
